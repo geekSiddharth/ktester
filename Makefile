@@ -3,7 +3,7 @@
 # Kernel Testing script
 
 
-KDIR=$(shell realpath ~/kp/)
+KDIR=$(shell realpath /kp/)
 
 QEMU_DISPLAY?=none
 ARCH?=x86_64
@@ -62,8 +62,8 @@ TMPDIR := $(shell mktemp -u)
 
 
 $(ZIMAGE): $(KCONFIG) $(ZIMAGE)
-	$(MAKE) -j4 -C $(KDIR)
-	$(MAKE) -j4 -C $(KDIR) modules
+	$(MAKE) -j8 -C $(KDIR)
+	$(MAKE) -j8 -C $(KDIR) modules
 
 conf: $(KCONFIG)
 $(KCONFIG): qemu/kernel_config.x86
@@ -72,7 +72,7 @@ $(KCONFIG): qemu/kernel_config.x86
 
 $(YOCTO_IMAGE):
 	wget $(YOCTO_URL)/$(YOCTO_IMAGE)
-	sudo qemu/prepare-image.sh $(YOCTO_IMAGE)
+	qemu/prepare-image.sh $(YOCTO_IMAGE)
 
 gdb: $(ZIMAGE)
 	gdb -ex "target remote localhost:1234" $(KDIR)/vmlinux
@@ -98,10 +98,10 @@ COPYDIR := $(shell mktemp -u)
 copy: $(YOCTO_IMAGE)
 	if [ -e qemu.mon ]; then exit 1; fi
 	mkdir $(COPYDIR)
-	sudo mount -t ext4 -o loop $(YOCTO_IMAGE) $(COPYDIR)
-	sudo cp -rf misc $(COPYDIR)/home/root
+	mount -t ext4 -o loop $(YOCTO_IMAGE) $(COPYDIR)
+	cp -rf misc $(COPYDIR)/home/root
 #	find misc -type f \( -name *.ko -or -executable \) | xargs sudo cp --parents -t $(COPYDIR)/home/root || true
-	sudo umount $(COPYDIR)
+	umount $(COPYDIR)
 	rmdir $(COPYDIR)
 
 clean:
