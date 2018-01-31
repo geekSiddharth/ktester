@@ -1,4 +1,4 @@
-#ktester 
+# ktester 
 
 This is our attempt to make compiling of custom linux kernel(for kernel dev) followed by their testing in a virtual environment as easy as possible. 
 
@@ -75,7 +75,7 @@ The login id is `root`.
 
 
 
- 
+ ### Old instructions
 
 
 PLEASE set the KDIR first for this to work.
