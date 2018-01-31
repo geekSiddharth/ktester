@@ -22,5 +22,5 @@ EOF
 
 echo -e "auto eth0\niface eth0 inet dhcp" >> $TMP/etc/network/interfaces
 
-sudo umount $TMP
+umount $TMP
 rmdir $TMP

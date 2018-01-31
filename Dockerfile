@@ -1,16 +1,18 @@
-FROM ubuntu
+
+FROM ubuntu:16.04
 MAINTAINER Siddharth Yadav
 
-
-RUN apt-get update &&  && apt-get install -yf \
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install -yf build-essential qemu-system-x86 qemu-system-arm \
                                         qemu-kvm \
                                         make \
                                         gcc \
                                         unzip \
                                         wget \ 
                                         qemu \
-                                        virt-manager \
-                                        virt-viewer \
+                                        virt-manager
+RUN apt-get install -y virt-viewer \
                                         libvirt-bin \
                                         libelf-dev \ 
                                         chrpath \
@@ -24,8 +26,10 @@ RUN apt-get update &&  && apt-get install -yf \
                                         bc
 
 
+
 RUN rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update
 
 RUN mkdir /workstation
 COPY . /workstation

@@ -53,9 +53,9 @@ zImage: $(ZIMAGE)
 TMPDIR := $(shell mktemp -u)
 .modinst: $(ZIMAGE) $(YOCTO_IMAGE)
 	mkdir $(TMPDIR)
-	sudo mount -t ext4 -o loop $(YOCTO_IMAGE) $(TMPDIR)
-	sudo $(MAKE) -C $(KDIR) modules_install INSTALL_MOD_PATH=$(TMPDIR)
-	sudo umount $(TMPDIR)
+	mount -t ext4 -o loop $(YOCTO_IMAGE) $(TMPDIR)
+	$(MAKE) -C $(KDIR) modules_install INSTALL_MOD_PATH=$(TMPDIR)
+	umount $(TMPDIR)
 	rmdir $(TMPDIR)
 	sleep 1 && touch .modinst
 

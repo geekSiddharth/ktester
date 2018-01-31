@@ -26,15 +26,15 @@ esac
 # If device doesn't exist add device.
 
 if ! /sbin/ip link show dev "$device" > /dev/null 2>&1; then
-	sudo ip tuntap add mode tap user "$USER" dev "$device"
+	ip tuntap add mode tap user "$USER" dev "$device"
 fi
 
-sudo /sbin/ip address flush dev "$device"
-sudo /sbin/ip link set dev "$device" down
-sudo /sbin/ip address add $subnet.1/24 dev "$device"
-sudo /sbin/ip link set dev "$device" up
+/sbin/ip address flush dev "$device"
+/sbin/ip link set dev "$device" down
+/sbin/ip address add $subnet.1/24 dev "$device"
+/sbin/ip link set dev "$device" up
 
 mkdir -p $PWD/tftp
 
 
-sudo dnsmasq --enable-tftp --tftp-root=$PWD/tftp --no-resolv --no-hosts --bind-interfaces --interface $device -F $subnet.2,$subnet.20 -x dnsmasq.pid || true
+dnsmasq --enable-tftp --tftp-root=$PWD/tftp --no-resolv --no-hosts --bind-interfaces --interface $device -F $subnet.2,$subnet.20 -x dnsmasq.pid || true
