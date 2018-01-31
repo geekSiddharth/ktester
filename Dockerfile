@@ -25,6 +25,8 @@ RUN apt-get install -y virt-viewer \
                                         libssl-dev \
                                         bc
 
+RUN apt-get install -y nano \
+			minicom
 
 
 RUN rm -rf /var/lib/apt/lists/*
@@ -33,6 +35,9 @@ RUN apt-get update
 
 RUN mkdir /workstation
 COPY . /workstation
+WORKDIR /workstation
 
 RUN mkdir /kp
 VOLUME ["/kp/"]
+
+CMD make boot 
